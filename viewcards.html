@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Procedure Cards - Responsive</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+details summary {
+  list-style: none;
+}
+details summary::marker {
+  content: "";
+}
+.accordion-trigger::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-size: 0.95rem;
+  transform: rotate(0deg);
+}
+
+.sidebar-section button::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+.sidebar-section button.rotated::before {
+  transform: rotate(90deg);
+}
+</style>
+<style>
+/* Hide scrollbars on mobile tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Sidebar slide-in/out transitions */
+#sidebar.slide-in {
+  transform: translateX(0%);
+}
+#sidebar.slide-out {
+  transform: translateX(-100%);
+}
+</style>
+</head>
+<body class="bg-gray-100 text-gray-800 f o n t - s a n s" style="background-color: #f9fafb; color: #1f2937; font-family: sans-serif;">
+<!-- Mobile Header -->
+<header class="flex flex-col px-4 py-3 bg-[#a855f7] border-b sticky top-0 z-10 md:hidden">
+<h1 class="text-sm font-bold leading-snug" style="color: #ffffff;">Royal London Hospital Trauma and Orthopaedic Procedure Cards</h1>
+<div class="flex justify-between items-center mt-1">
+<h2 class="text-base text-blue-700 font-semibold truncate" id="mobileProcedureTitle" style="color: #ffffff;">Femoral Nail Procedure</h2>
+<div class="flex items-center space-x-2">
+<button class="text-gray-600 text-2xl focus:outline-none" id="menuToggle">☰</button>
+</div>
+</div>
+</header>
+<div class="flex flex-col md:flex-row h-screen">
+<!-- Sidebar -->
+<aside class="fixed top-0 left-0 z-40 md:relative md:z-auto hidden md:block md:w-64 w-3/4 max-w-xs bg-white border-r shadow-lg h-full overflow-y-auto" id="sidebar" class="fixed top-0 left-0 z-40 md:relative md:z-auto hidden md:block md:w-64 w-3/4 max-w-xs bg-white border-r shadow-lg h-full overflow-y-auto transition-transform transform duration-200 ease-in-out">
+<div class="hidden md:block px-6 py-4 font-bold text-lg" style="background-color: #6b7280; color: #ffffff; border-radius: 0 0 0.5rem 0.5rem;">
+  Royal London Hospital Trauma and Orthopaedic Procedure Cards
+</div>
+<div class="px-4 py-3">
+<form class="flex items-center space-x-2" onsubmit="handleKeywordSearch(event)">
+<input class="w-full px-3 py-1 border rounded text-sm" id="searchInput" placeholder="Search procedures..." type="text"/>
+<button class="px-2 py-1 bg-gray-700 text-white text-sm rounded" type="submit">Enter</button>
+</form>
+</div>
+<div class="px-4 text-sm">
+<button class="section-toggle flex items-center justify-between w-full text-left font-semibold text-gray-700 mb-2 hover:bg-gray-100 px-2 py-1 rounded" data-target="byAnatomy">
+<span>Anatomy</span><span class="arrow transition-transform transform">▸</span>
+</button>
+<ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="byAnatomy"><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Shoulder_and_Elbow')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Shoulder and Elbow</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Shoulder_and_Elbow"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Shoulder and Elbow - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Shoulder and Elbow - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Shoulder and Elbow - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Shoulder and Elbow - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Shoulder and Elbow - Procedure 5')">Procedure 5</li></ul><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Hand_and_Wrist')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Hand and Wrist</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Hand_and_Wrist"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hand and Wrist - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hand and Wrist - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hand and Wrist - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hand and Wrist - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hand and Wrist - Procedure 5')">Procedure 5</li></ul><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Spine')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Spine</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Spine"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Spine - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Spine - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Spine - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Spine - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Spine - Procedure 5')">Procedure 5</li></ul><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Pelvis')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Pelvis</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Pelvis"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Pelvis - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Pelvis - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Pelvis - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Pelvis - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Pelvis - Procedure 5')">Procedure 5</li></ul><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Hips')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Hips</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Hips"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hips - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hips - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hips - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hips - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Hips - Procedure 5')">Procedure 5</li></ul><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Femur')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Femur</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Femur"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Femur - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Femur - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Femur - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Femur - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Femur - Procedure 5')">Procedure 5</li></ul><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Knee')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Knee</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Knee"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Knee - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Knee - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Knee - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Knee - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Knee - Procedure 5')">Procedure 5</li></ul><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Tibia_and_Fibula')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Tibia and Fibula</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Tibia_and_Fibula"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Tibia and Fibula - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Tibia and Fibula - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Tibia and Fibula - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Tibia and Fibula - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Tibia and Fibula - Procedure 5')">Procedure 5</li></ul><li class="font-semibold text-gray-800 cursor-pointer" onclick="toggleSection('Foot_and_Ankle')"><span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> Foot and Ankle</span></li><ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="Foot_and_Ankle"><li class="cursor-pointer hover:underline" onclick="loadProcedure('Foot and Ankle - Procedure 1')">Procedure 1</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Foot and Ankle - Procedure 2')">Procedure 2</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Foot and Ankle - Procedure 3')">Procedure 3</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Foot and Ankle - Procedure 4')">Procedure 4</li><li class="cursor-pointer hover:underline" onclick="loadProcedure('Foot and Ankle - Procedure 5')">Procedure 5</li></ul></ul>
+<button class="section-toggle flex items-center justify-between w-full text-left font-semibold text-gray-700 mb-2 hover:bg-gray-100 px-2 py-1 rounded mt-4" data-target="bySupplier">
+  <span>Supplier</span><span class="arrow transition-transform transform">▸</span>
+</button>
+<ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="bySupplier">
+  <script>
+    const suppliers = [
+      "DePuy Synthes",
+      "Zimmer Biomet",
+      "Smith and Nephew",
+      "Silony Medical",
+      "Lima Enovis",
+      "Arthrex",
+      "Medacta",
+      "ITS",
+      "Leda",
+      "Lavander Medical",
+      "Paragon",
+      "Acumed",
+      "Arthrocare",
+      "Nuvasive",
+      "B Braun",
+      "Medtronic",
+      "Stryker",
+      "Wright Medical",
+      "Biedermann",
+      "Orthofix"
+    ];
+
+    const supplierList = document.getElementById("bySupplier");
+
+    suppliers.forEach(supplier => {
+      const id = supplier.replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_]/g, "");
+      const parentLi = document.createElement("li");
+      parentLi.className = "font-semibold text-gray-800 cursor-pointer";
+      parentLi.setAttribute("onclick", `toggleSection('${id}')`);
+      parentLi.innerHTML = `<span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> ${supplier}</span>`;
+      supplierList.appendChild(parentLi);
+
+      const ul = document.createElement("ul");
+      ul.id = id;
+      ul.className = "pl-4 hidden space-y-1 text-sm text-blue-700";
+
+      for (let i = 1; i <= 5; i++) {
+        const li = document.createElement("li");
+        li.className = "cursor-pointer hover:underline";
+        li.setAttribute("onclick", `loadProcedure('${supplier} - Procedure ${i}')`);
+        li.textContent = `Procedure ${i}`;
+        ul.appendChild(li);
+      }
+
+      supplierList.appendChild(ul);
+    });
+  </script>
+</ul>
+
+<button class="section-toggle flex items-center justify-between w-full text-left font-semibold text-gray-700 mb-2 hover:bg-gray-100 px-2 py-1 rounded mt-4" data-target="bySurgeon">
+  <span>Preference</span><span class="arrow transition-transform transform">▸</span>
+</button>
+<ul class="pl-4 hidden space-y-1 text-sm text-blue-700" id="bySurgeon">
+  <script>
+    const surgeonGroups = {
+      "A": [
+        "ACHAN, Pramod",
+        "AF TAB, Syed",
+        "AHMED, Hasan",
+        "AL-HAKIM, Wisam",
+        "ANG, Sweechai",
+        "ARESTI, Nick",
+        "ARSHAD, Homa",
+        "AYUB, Anouska"
+      ],
+      "B": [
+        "BALASUBRAMANIAN, Prabu",
+        "BATES, Peter",
+        "BHUMBRA, Rej",
+        "BIJLSMA, Paulien",
+        "BOTHRA, Sumati",
+        "BIEDERMANN, "
+      ],
+      "C": [
+        "CARLOS, Adrian",
+        "CHAMBERLAIN, Mark",
+        "CULPAN, Paul"
+      ],
+      "D": [
+        "DAWSON-BOWLING, Sebastian",
+        "DIMASCIO, Livio"
+      ],
+      "E": [
+        "EDWARDS, Taff"
+      ],
+      "F": [
+        "FITZGERALD, Claire"
+      ],
+      "G": [
+        "GRIFFIN, Xavier"
+      ],
+      "H": [
+        "HAIDER, Zakir"
+      ],
+      "I": [
+        "ILIADIS, Alexis-Dimitris"
+      ],
+      "J": [
+        "JEYASEELAN, Lucky"
+      ],
+      "K": [
+        "KHAN, Arif"
+      ],
+      "L": [
+        "LAMBA, Mandeep",
+        "LEE, Joshua",
+        "LEE, Paul"
+      ],
+      "M": [
+        "MAIZEN, Claudia",
+        "MALAGELADA, Francesc",
+        "MANOUKIAN, Dimitrios",
+        "MANGATTIL, Rajesh",
+        "MILLINGTON, Steven",
+        "MONTGOMERY, Alexander",
+        "MUTHUKUMAR, Valliappan"
+      ],
+      "N": [
+        "NADARAJAH, Ramesh",
+        "NOORANI, Ali"
+      ],
+      "O": [
+        "OKAFOR, Ben"
+      ],
+      "P": [
+        "PATEL, Amit",
+        "PATEL, Jaison",
+        "PATEL, Kavi"
+      ],
+      "R": [
+        "RAMACHANDRAN, Manoj"
+      ],
+      "S": [
+        "SCOTT, Gareth",
+        "SEDRA, Fady",
+        "SRI-RAM, Kes",
+        "SMITH, [placeholder]"
+      ],
+      "T": [
+        "TSANG, Jerry",
+        "TSITSKARIS, Konstantinos"
+      ],
+      "V": [
+        "VAGHELA, Kalpesh",
+        "VRIS, Alexandros"
+      ],
+      "W": [
+        "WARD, Jonathan",
+        "WILLIAMS, Daniel"
+      ]
+    };
+
+    const surgeonList = document.getElementById("bySurgeon");
+
+    Object.entries(surgeonGroups).forEach(([initial, surgeons]) => {
+      const groupHeader = document.createElement("li");
+      groupHeader.className = "font-bold text-gray-600 mt-2";
+      groupHeader.textContent = initial;
+      surgeonList.appendChild(groupHeader);
+
+      surgeons.forEach(surgeon => {
+        const id = surgeon.replace(/[^a-zA-Z0-9]/g, "_");
+        const parentLi = document.createElement("li");
+        parentLi.className = "font-semibold text-gray-800 cursor-pointer";
+        parentLi.setAttribute("onclick", `toggleSection('${id}')`);
+        parentLi.innerHTML = `<span class="arrow inline-block mr-1 transition-transform transform">▸</span><span> ${surgeon}</span>`;
+        surgeonList.appendChild(parentLi);
+
+        const ul = document.createElement("ul");
+        ul.id = id;
+        ul.className = "pl-4 hidden space-y-1 text-sm text-blue-700";
+
+        for (let i = 1; i <= 5; i++) {
+          const li = document.createElement("li");
+          li.className = "cursor-pointer hover:underline";
+          li.setAttribute("onclick", `loadProcedure('${surgeon} - Procedure ${i}')`);
+          li.textContent = `Procedure ${i}`;
+          ul.appendChild(li);
+        }
+
+        surgeonList.appendChild(ul);
+      });
+    });
+  </script>
+</ul>
+
+<button class="section-toggle flex items-center justify-between w-full text-left font-semibold text-gray-700 mb-2 hover:bg-gray-100 px-2 py-1 rounded mt-4" data-target="collectionsSection">
+<span>Collections</span><span class="arrow transition-transform transform">▸</span>
+</button>
+<ul class="pl-4 hidden space-y-2 text-sm text-blue-700" id="collectionsSection">
+<li>
+<button class="w-full bg-gray-700 text-white py-1 px-3 rounded text-sm" onclick="document.getElementById('formSection').classList.toggle('hidden'); document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });">＋ Add Procedure</button>
+</li>
+<li>
+<button class="w-full bg-gray-700 text-white py-1 px-3 rounded text-sm" onclick="alert('Edit functionality coming soon!');">✎ Edit Procedure</button>
+</li>
+</ul>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-hidden pt-16 md:pt-0">
+<!-- Top bar (desktop only) -->
+<header class="hidden md:flex items-center justify-between px-6 py-4 bg-[#a855f7] border-b">
+<h1 class="text-xl font-semibold" id="desktopHeader" style="color: #ffffff;">Femoral Nail Procedure</h1>
+<div class="space-x-2">
+</div>
+</header>
+<!-- Form Section -->
+<div class="p-4 hidden bg-white border-b overflow-y-auto" id="formSection">
+<form class="space-y-4" id="procedureForm">
+<div><label class="block font-medium">Instrument Trays</label><textarea class="w-full border rounded px-3 py-2" name="instrumentTrays"></textarea></div>
+<div><label class="block font-medium">Drape</label><textarea class="w-full border rounded px-3 py-2" name="drape"></textarea></div>
+<div><label class="block font-medium">Prep Solution</label><textarea class="w-full border rounded px-3 py-2" name="prepSolution"></textarea></div>
+<div><label class="block font-medium">Positioning</label><textarea class="w-full border rounded px-3 py-2" name="positioning"></textarea></div>
+<div><label class="block font-medium">Implants</label><textarea class="w-full border rounded px-3 py-2" name="implants"></textarea></div>
+<div><label class="block font-medium">Consumables</label><textarea class="w-full border rounded px-3 py-2" name="consumables"></textarea></div>
+<button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" type="submit">Save Procedure Card</button>
+</form>
+</div>
+<!-- Tabs -->
+<div class="px-4 py-2 bg-white border-b flex overflow-x-auto text-sm space-x-4 b o r d e r - g r a y - 3 0 0 s h a d o w - s m" id="categoryTabs" class="flex overflow-x-auto no-scrollbar space-x-4 px-4 py-2 bg-white border-b text-sm shadow-sm">
+<button class="tab-btn text-blue-600 font-semibold border-b-2 border-blue-600 pb-1" onclick="switchTab(this, 'Description')">Description</button><button class="tab-btn text-gray-500 hover:text-black whitespace-nowrap" onclick="switchTab(this, 'Prep &amp; Drape')">Prep &amp; Drape</button>
+<button class="tab-btn text-gray-500 hover:text-black" onclick="switchTab(this, 'Instrument')">Instrument</button>
+<button class="tab-btn text-gray-500 hover:text-black" onclick="switchTab(this, 'Positioning')">Positioning</button>
+<button class="tab-btn text-gray-500 hover:text-black" onclick="switchTab(this, 'Implants')">Implants</button>
+<button class="tab-btn text-gray-500 hover:text-black" onclick="switchTab(this, 'Consumables')">Consumables</button>
+<button class="tab-btn text-gray-500 hover:text-black" onclick="switchTab(this, 'Equipment')">Equipment</button>
+<button class="tab-btn text-gray-500 hover:text-black" onclick="switchTab(this, 'Training')">Training</button>
+</div>
+<!-- Main Panel -->
+<div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+<div class="w-full md:w-1/4 border-r bg-gray-50 p-4 overflow-y-auto space-y-6" id="sidebarContent"></div>
+<div class="flex-1 p-4 overflow-y-auto" id="detailsDisplay" style="min-height: 60vh;">
+<div class="text-center text-gray-500">
+<p>Select an item from the left to view its contents.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    const sidebarData = {
+      "Description": [
+        { title: "Overview", items: ["Procedure Summary", "Team Required"] },
+        { title: "Steps Outline", items: ["Initial Setup", "Final Closure"] }
+      ],
+      "Equipment": [
+        { title: "Operating Table Attachments", items: ["Allen Leg Holders", "Radiolucent Table"] },
+        { title: "Power Tools", items: ["Stryker Drill", "Oscillating Saw"] },
+        { title: "Other", items: ["Tourniquet", "Lead Aprons"] }
+      ],
+      "Training and Support": [
+        { title: "Videos", items: ["Intro to Femoral Nail", "Craniotomy Animation"] },
+        { title: "Operative Technique", items: ["Femoral Nail Guide", "DHS Setup Steps"] },
+        { title: "Cheat Sheet", items: ["Positioning Shortlist", "Tray Checklist"] },
+        { title: "Contact Resources", items: ["Tech Rep Contact", "Training Coordinator"] }
+      ],
+      "Instrument Trays": [
+        { title: "Basic Instrument Trays", items: ["Ortho Tray", "Neuro Tray", "ENT Tray"] },
+        { title: "Instrument Trays on Standby", items: ["Spinal Tray"] },
+        { title: "Single Packed Instruments", items: ["Tungsten Forceps"] }
+      ],
+      "Prep & Drape": [
+    { title: "Sterile Drape Pack", items: ["Full Drape Pack", "ENT Drape Pack"] },
+    { title: "Single Drapes", items: ["U-Drape", "Ioban Sheet"] },
+    { title: "Instruction and Steps", items: ["Drape Setup Guide", "Aseptic Drape Method"] },
+    { title: "Demo", items: ["Draping Video 1", "PDF Guide"] },
+    { title: "Skin Prep", items: ["Chlorhexidine 2%", "Betadine"] },
+    { title: "Application Tools", items: ["Applicators", "Sterile Pots"] }
+],
+      "Positioning": [
+        { title: "Standard Positions", items: ["Supine", "Lithotomy", "Lateral"] },
+        { title: "Aids & Supports", items: ["Peg Board", "Heel Bump", "Vac Pack"] }
+      ],
+      "Implants": [
+        { title: "Hip Implants", items: ["Cemented Hip Stem", "Uncemented Cup"] },
+        { title: "Trauma Sets", items: ["Femoral Nail", "Gamma Nail"] }
+      ],
+      "Consumables": [
+        { title: "Wound Closure", items: ["Staples", "Vicryl 2-0"] },
+        { title: "Dressings", items: ["Mepore", "Opsite"] }
+      ]
+    };
+
+    function switchTab(button, category) {
+      document.querySelectorAll('.tab-btn').forEach(tab => {
+        tab.classList.remove('text-blue-600', 'font-semibold', 'border-b-2', 'border-blue-600');
+        tab.classList.add('text-gray-500');
+      });
+      button.classList.add('text-blue-600', 'font-semibold', 'border-b-2', 'border-blue-600');
+      button.classList.remove('text-gray-500');
+
+      const display = document.getElementById('detailsDisplay');
+      display.innerHTML = `
+        <h2 class="text-lg font-semibold">${category}</h2>
+        <p class="text-gray-600">This section shows details related to <strong>${category}</strong>.</p>
+      `;
+
+      const sidebar = document.getElementById('sidebarContent');
+      sidebar.innerHTML = '';
+      const sections = sidebarData[category] || [];
+      sections.forEach((section, idx) => {
+        const sectionId = `${category.replace(/\s+/g, '')}_${idx}`;
+        const sectionHtml = `
+          <div>
+            <button class="w-full text-left font-semibold text-gray-800 mb-2" onclick="toggleSection('${sectionId}')">
+              ▸ ${section.title}
+            </button>
+            <ul id="${sectionId}" class="pl-4 hidden space-y-1 text-sm text-blue-700">
+              ${section.items.map(item => `<li class="hover:underline cursor-pointer" onclick="showDetails('${item}')">${item}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        sidebar.insertAdjacentHTML('beforeend', sectionHtml);
+      });
+    }
+
+    function toggleSection(id) {
+      document.getElementById(id).classList.toggle('hidden');
+    }
+
+    function showDetails(itemName) {
+      const display = document.getElementById('detailsDisplay');
+      display.innerHTML = `
+        <h2 class="text-lg font-semibold">${itemName}</h2>
+        <p class="text-gray-600">This is where full procedure content for <strong>${itemName}</strong> will appear.</p>
+        <ul class="list-disc pl-5 mt-2">
+          <li>Step 1: [Placeholder]</li>
+          <li>Step 2: [Placeholder]</li>
+          <li>Step 3: [Placeholder]</li>
+        </ul>
+      `;
+    }
+
+    function loadProcedure(name) {
+      document.getElementById('desktopHeader').textContent = name; document.getElementById('mobileProcedureTitle').textContent = name;
+      showDetails(name);
+    }
+
+    function handleKeywordSearch(event) {
+      event.preventDefault();
+      const query = document.getElementById('searchInput').value.trim();
+      if (query) loadProcedure(query);
+    }
+
+    document.getElementById("addBtn").addEventListener("click", function () {
+      const form = document.getElementById("formSection");
+      form.classList.toggle("hidden");
+      form.scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("procedureForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Procedure saved!");
+    });
+
+    document.getElementById("menuToggle").addEventListener("click", function () {
+  const sidebar = document.getElementById("sidebar");
+  const main = document.querySelector("main");
+  if (sidebar.classList.contains("hidden")) {
+    sidebar.classList.remove("hidden");
+    main.classList.add("blur-sm", "pointer-events-none");
+    document.body.insertAdjacentHTML("beforeend", '<div id="overlayBg" class="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden"></div>');
+    document.getElementById("overlayBg").addEventListener("click", function () {
+      sidebar.classList.add("hidden");
+      main.classList.remove("blur-sm", "pointer-events-none");
+      this.remove();
+    });
+  } else {
+    sidebar.classList.add("hidden");
+    main.classList.remove("blur-sm", "pointer-events-none");
+    const bg = document.getElementById("overlayBg");
+    if (bg) bg.remove();
+  }
+});
+
+    window.addEventListener('DOMContentLoaded', function () {
+      const firstTab = document.querySelector('.tab-btn');
+      if (firstTab) firstTab.click();
+    });
+  </script>
+
+<script>
+document.querySelectorAll('details').forEach((targetDetail) => {
+  targetDetail.addEventListener('toggle', () => {
+    if (targetDetail.open) {
+      document.querySelectorAll('details').forEach((detail) => {
+        if (detail !== targetDetail && detail.open) {
+          detail.open = false;
+        }
+      });
+    }
+  });
+});
+</script>
+<script>
+  document.querySelectorAll('.section-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-target');
+      const targetSection = document.getElementById(targetId);
+      const currentArrow = button.querySelector('.arrow');
+
+      document.querySelectorAll('.section-toggle').forEach(btn => {
+        const otherId = btn.getAttribute('data-target');
+        const otherSection = document.getElementById(otherId);
+        const arrow = btn.querySelector('.arrow');
+
+        if (otherId !== targetId) {
+          otherSection.classList.add('hidden');
+          arrow.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      const isHidden = targetSection.classList.contains('hidden');
+      if (isHidden) {
+        targetSection.classList.remove('hidden');
+        currentArrow.style.transform = 'rotate(90deg)';
+      } else {
+        targetSection.classList.add('hidden');
+        currentArrow.style.transform = 'rotate(0deg)';
+      }
+    });
+  });
+</script>
+<script>
+function toggleSection(id) {
+  const target = document.getElementById(id);
+  const isHidden = target.classList.contains('hidden');
+
+  const allMainULs = ['byAnatomy', 'bySupplier', 'bySurgeon'];
+  let parentList = null;
+
+  for (let ulId of allMainULs) {
+    const ul = document.getElementById(ulId);
+    if (ul && ul.contains(target)) {
+      parentList = ul;
+      break;
+    }
+  }
+
+  if (!parentList) return;
+
+  // Collapse all other sublists in this section
+  parentList.querySelectorAll('ul').forEach(ul => {
+    if (ul.id !== id) ul.classList.add('hidden');
+  });
+
+  // Reset all arrows
+  parentList.querySelectorAll('li.font-semibold .arrow').forEach(arrow => {
+    const arrowLI = arrow.closest('li');
+    const match = arrowLI.getAttribute('onclick')?.match(/'([^']+)'/);
+    if (match && match[1] !== id) {
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  });
+
+  // Toggle the selected one
+  const arrow = parentList.querySelector(`li[onclick="toggleSection('${id}')"] .arrow`);
+  if (isHidden) {
+    target.classList.remove('hidden');
+    if (arrow) arrow.style.transform = 'rotate(90deg)';
+  } else {
+    target.classList.add('hidden');
+    if (arrow) arrow.style.transform = 'rotate(0deg)';
+  }
+}
+</script><script>
+function showTab(tabId) {
+  const tabs = document.querySelectorAll('[id^="tab"]');
+  const buttons = document.querySelectorAll('[id^="tabButton"]');
+  tabs.forEach((tab, index) => {
+    if (tab.id === tabId) {
+      tab.classList.remove("hidden");
+      buttons[index].classList.add("bg-white", "border-t", "border-l", "border-r", "rounded-t");
+    } else {
+      tab.classList.add("hidden");
+      buttons[index].classList.remove("bg-white", "border-t", "border-l", "border-r", "rounded-t");
+    }
+  });
+}
+</script><div class="p-4 bg-white border border-t-0 rounded-b" id="tabContent"><div class="" id="tab0">Description content goes here...</div><div class="hidden" id="tab1">Prep &amp; Drape content goes here...</div><div class="hidden" id="tab2">Instrument content goes here...</div><div class="hidden" id="tab3">Positioning content goes here...</div><div class="hidden" id="tab4">Implants content goes here...</div><div class="hidden" id="tab5">Consumables content goes here...</div><div class="hidden" id="tab6">Equipment content goes here...</div><div class="hidden" id="tab7">Training content goes here...</div></div><script>
+function toggleSection(id, btn) {
+  const allLists = document.querySelectorAll('#sidebarContent ul');
+  const allButtons = document.querySelectorAll('#sidebarContent button');
+
+  allLists.forEach(list => {
+    if (list.id !== id) list.classList.add('hidden');
+  });
+
+  allButtons.forEach(button => {
+    if (button !== btn) button.classList.remove('rotated');
+  });
+
+  const ul = document.getElementById(id);
+  const isHidden = ul.classList.contains('hidden');
+  if (isHidden) {
+    ul.classList.remove('hidden');
+    btn.classList.add('rotated');
+  } else {
+    ul.classList.add('hidden');
+    btn.classList.remove('rotated');
+  }
+}
+</script>
+<script>
+document.getElementById("menuToggle").addEventListener("click", function () {
+  const sidebar = document.getElementById("sidebar");
+  const main = document.querySelector("main");
+
+  if (sidebar.classList.contains("hidden")) {
+    sidebar.classList.remove("hidden", "slide-out");
+    sidebar.classList.add("slide-in");
+
+    main.classList.add("blur-sm", "pointer-events-none");
+
+    const overlay = document.createElement("div");
+    overlay.id = "overlayBg";
+    overlay.className = "fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden";
+    overlay.addEventListener("click", function () {
+      sidebar.classList.remove("slide-in");
+      sidebar.classList.add("slide-out");
+      setTimeout(() => {
+        sidebar.classList.add("hidden");
+      }, 200);
+      main.classList.remove("blur-sm", "pointer-events-none");
+      overlay.remove();
+    });
+    document.body.appendChild(overlay);
+  } else {
+    sidebar.classList.remove("slide-in");
+    sidebar.classList.add("slide-out");
+    setTimeout(() => {
+      sidebar.classList.add("hidden");
+    }, 200);
+    main.classList.remove("blur-sm", "pointer-events-none");
+    const bg = document.getElementById("overlayBg");
+    if (bg) bg.remove();
+  }
+});
+</script>
+</body>
+</html>
